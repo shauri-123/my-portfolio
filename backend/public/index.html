@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rebecca Portfolio — Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:#0d0d1a;color:#e2d9f3;min-height:100vh;}
+
+    nav{background:#0f0920;padding:15px 36px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e1040;}
+    .logo{font-size:18px;font-weight:800;color:#fff;}.logo em{color:#f59e0b;font-style:normal;}
+    .status{display:flex;align-items:center;gap:8px;font-size:13px;color:#86efac;}
+    .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+    .container{max-width:1000px;margin:0 auto;padding:32px 24px;}
+
+    .info-bar{background:#0f0920;border:1px solid #1e1040;border-radius:12px;padding:20px 28px;margin-bottom:28px;display:flex;gap:40px;align-items:center;}
+    .info-item label{font-size:10px;color:#7c6a9a;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;}
+    .info-item span{font-size:14px;font-weight:600;color:#c084fc;}
+
+    .tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
+    .tab{padding:8px 20px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid #1e1040;background:#0f0920;color:#7c6a9a;transition:all 0.2s;font-family:'Inter',sans-serif;}
+    .tab.active{background:linear-gradient(90deg,#7c3aed,#a855f7);color:#fff;border-color:transparent;}
+    .tab:hover:not(.active){color:#c084fc;border-color:#3b1f6a;}
+
+    .panel{display:none;}.panel.active{display:block;}
+
+    .card{background:#0f0920;border:1px solid #1e1040;border-radius:12px;padding:24px;margin-bottom:16px;}
+    .card-title{font-size:13px;font-weight:700;color:#a78bfa;text-transform:uppercase;letter-spacing:1px;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+    .card-title::before{content:'';width:3px;height:13px;background:linear-gradient(180deg,#7c3aed,#f59e0b);border-radius:3px;}
+
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+    .form-group{display:flex;flex-direction:column;gap:6px;}
+    .form-group.full{grid-column:1/-1;}
+    label{font-size:11px;font-weight:600;color:#7c6a9a;text-transform:uppercase;letter-spacing:0.8px;}
+    input,select,textarea{background:#0d0d1a;border:1px solid #2a1a4a;border-radius:8px;padding:10px 14px;font-size:13px;color:#e2d9f3;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s;}
+    input:focus,select:focus,textarea:focus{border-color:#7c3aed;}
+    input::placeholder,textarea::placeholder{color:#4a3a6a;}
+    select option{background:#0d0d1a;}
+
+    .btn{padding:9px 20px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all 0.2s;}
+    .btn-add{background:linear-gradient(90deg,#7c3aed,#a855f7);color:#fff;}
+    .btn-add:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(124,58,237,0.4);}
+    .btn-save{background:linear-gradient(90deg,#059669,#10b981);color:#fff;}
+    .btn-save:hover{transform:translateY(-1px);}
+    .btn-del{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.3);padding:6px 14px;font-size:11px;}
+    .btn-del:hover{background:rgba(239,68,68,0.3);}
+    .btn-edit{background:rgba(124,58,237,0.15);color:#c084fc;border:1px solid rgba(124,58,237,0.3);padding:6px 14px;font-size:11px;}
+    .btn-edit:hover{background:rgba(124,58,237,0.3);}
+
+    table{width:100%;border-collapse:collapse;}
+    th{padding:10px 12px;font-size:11px;font-weight:600;color:#6b5a8a;text-align:left;border-bottom:1px solid #2a1a4a;background:#0d0d1a;}
+    td{padding:10px 12px;font-size:12.5px;color:#c4b5d4;border-bottom:1px solid #1e1040;vertical-align:middle;}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:rgba(124,58,237,0.05);}
+
+    .pill{display:inline-block;padding:2px 9px;border-radius:8px;font-size:10.5px;font-weight:600;}
+    .pill-v{background:rgba(124,58,237,0.2);color:#c084fc;border:1px solid rgba(124,58,237,0.3);}
+    .pill-g{background:rgba(34,197,94,0.15);color:#86efac;border:1px solid rgba(34,197,94,0.3);}
+    .pill-p{background:rgba(236,72,153,0.15);color:#f9a8d4;border:1px solid rgba(236,72,153,0.3);}
+    .pill-a{background:rgba(245,158,11,0.15);color:#fcd34d;border:1px solid rgba(245,158,11,0.3);}
+
+    .bar{width:80px;height:5px;background:#1e1040;border-radius:4px;overflow:hidden;display:inline-block;vertical-align:middle;}
+    .bar-fill{height:5px;border-radius:4px;background:linear-gradient(90deg,#7c3aed,#f59e0b);}
+
+    .toast{position:fixed;bottom:24px;right:24px;background:#0f0920;border:1px solid #7c3aed;border-radius:10px;padding:12px 20px;font-size:13px;color:#c084fc;font-weight:600;display:none;z-index:999;box-shadow:0 4px 20px rgba(124,58,237,0.3);}
+    .toast.show{display:block;animation:slideIn 0.3s ease;}
+    @keyframes slideIn{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+
+    .actions{display:flex;gap:8px;}
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Rebecca <em>Shauri</em> — Admin</div>
+  <div class="status"><div class="dot"></div> API Running</div>
+</nav>
+
+<div class="container">
+
+  <div class="info-bar">
+    <div class="info-item"><label>Status</label><span id="api-status">Checking...</span></div>
+    <div class="info-item"><label>Port</label><span id="api-port">—</span></div>
+    <div class="info-item"><label>Endpoints</label><span id="api-endpoints">—</span></div>
+    <div class="info-item"><label>Skills</label><span id="skills-count">—</span></div>
+    <div class="info-item"><label>Projects</label><span id="projects-count">—</span></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('profile', event)">Profile</button>
+    <button class="tab" onclick="switchTab('skills', event)">Skills</button>
+    <button class="tab" onclick="switchTab('projects', event)">Projects</button>
+    <button class="tab" onclick="switchTab('contact', event)">Contact</button>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="panel active" id="panel-profile">
+    <div class="card">
+      <div class="card-title">Edit Profile</div>
+      <div class="form-row">
+        <div class="form-group"><label>Full Name</label><input id="p-name" placeholder="Rebecca Shauri"/></div>
+        <div class="form-group"><label>Title</label><input id="p-title" placeholder="Data Scientist & AI Engineer"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Email</label><input id="p-email" placeholder="rebecca@example.com"/></div>
+        <div class="form-group"><label>Location</label><input id="p-location" placeholder="Dar es Salaam, Tanzania"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full"><label>Bio</label><textarea id="p-bio" rows="3" placeholder="Write your bio..."></textarea></div>
+      </div>
+      <button class="btn btn-save" onclick="saveProfile()">💾 Save Profile</button>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="panel" id="panel-skills">
+    <div class="card">
+      <div class="card-title">Add New Skill</div>
+      <div class="form-row">
+        <div class="form-group"><label>Skill Name</label><input id="s-name" placeholder="e.g. Python"/></div>
+        <div class="form-group"><label>Category</label>
+          <select id="s-category">
+            <option>Programming</option>
+            <option>AI / ML</option>
+            <option>Analytics</option>
+            <option>Database</option>
+            <option>Backend</option>
+            <option>Frontend</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Level (0-100)</label><input id="s-level" type="number" min="0" max="100" placeholder="85"/></div>
+      </div>
+      <button class="btn btn-add" onclick="addSkill()">+ Add Skill</button>
+    </div>
+    <div class="card">
+      <div class="card-title">All Skills</div>
+      <table>
+        <thead><tr><th>Skill</th><th>Category</th><th>Level</th><th>%</th><th>Actions</th></tr></thead>
+        <tbody id="skills-list"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="panel" id="panel-projects">
+    <div class="card">
+      <div class="card-title">Add New Project</div>
+      <div class="form-row">
+        <div class="form-group"><label>Project Title</label><input id="pr-title" placeholder="e.g. ML Predictor"/></div>
+        <div class="form-group"><label>Status</label>
+          <select id="pr-status">
+            <option>Live</option>
+            <option>In Progress</option>
+            <option>Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full"><label>Description</label><input id="pr-desc" placeholder="What does this project do?"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Technologies (comma separated)</label><input id="pr-tech" placeholder="React, Python, SQL"/></div>
+        <div class="form-group"><label>Project Link</label><input id="pr-link" placeholder="https://..."/></div>
+      </div>
+      <button class="btn btn-add" onclick="addProject()">+ Add Project</button>
+    </div>
+    <div class="card">
+      <div class="card-title">All Projects</div>
+      <table>
+        <thead><tr><th>Title</th><th>Description</th><th>Tech</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="projects-list"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="panel" id="panel-contact">
+    <div class="card">
+      <div class="card-title">Edit Contact Info</div>
+      <div class="form-row">
+        <div class="form-group"><label>Email</label><input id="ct-email" placeholder="rebecca@example.com"/></div>
+        <div class="form-group"><label>Phone</label><input id="ct-phone" placeholder="0692657806"/></div>
+        <div class="form-group"><label>GitHub URL</label><input id="ct-github" placeholder="https://github.com/..."/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>LinkedIn URL</label><input id="ct-linkedin" placeholder="https://linkedin.com/in/..."/></div>
+        <div class="form-group"><label>Twitter URL</label><input id="ct-twitter" placeholder="https://twitter.com/..."/></div>
+      </div>
+      <button class="btn btn-save" onclick="saveContact()">💾 Save Contact</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'http://localhost:3000';
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function switchTab(name, evt) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+}
+
+// LOAD API STATUS
+fetch(`${API}/api`)
+  .then(r => r.json())
+  .then(data => {
+    document.getElementById('api-status').textContent = '✅ Online';
+    document.getElementById('api-port').textContent = data.port || '3000';
+    document.getElementById('api-endpoints').textContent = data.endpoints.length + ' routes';
+  })
+  .catch(() => {
+    document.getElementById('api-status').textContent = '⚠️ Offline';
+    showToast('Unable to connect to backend API');
+  });
+
+// LOAD PROFILE
+function loadProfile() {
+  fetch(`${API}/api/profile`).then(r => r.json()).then(data => {
+    document.getElementById('p-name').value = data.name || '';
+    document.getElementById('p-title').value = data.title || '';
+    document.getElementById('p-email').value = data.email || '';
+    document.getElementById('p-location').value = data.location || '';
+    document.getElementById('p-bio').value = data.bio || '';
+  }).catch(err => { console.error(err); showToast('❌ Could not load profile'); });
+}
+
+function saveProfile() {
+  const body = {
+    name: document.getElementById('p-name').value,
+    title: document.getElementById('p-title').value,
+    email: document.getElementById('p-email').value,
+    location: document.getElementById('p-location').value,
+    bio: document.getElementById('p-bio').value
+  };
+  fetch(`${API}/api/profile`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    .then(r => {
+      if (!r.ok) throw new Error('Profile update failed');
+      return r.json();
+    })
+    .then(() => { showToast('✅ Profile saved!'); loadProfile(); })
+    .catch(err => { console.error(err); showToast('❌ Profile save failed'); });
+}
+
+// LOAD SKILLS
+function loadSkills() {
+  fetch(`${API}/api/skills`).then(r => r.json()).then(data => {
+    document.getElementById('skills-count').textContent = data.skills.length;
+    const tbody = document.getElementById('skills-list');
+    tbody.innerHTML = '';
+    data.skills.forEach(s => {
+      tbody.innerHTML += `
+        <tr>
+          <td style="font-weight:600;color:#e2d9f3;">${s.name}</td>
+          <td><span class="pill pill-v">${s.category}</span></td>
+          <td><div class="bar"><div class="bar-fill" style="width:${s.level}%"></div></div></td>
+          <td>${s.level}%</td>
+          <td class="actions">
+            <button class="btn btn-del" onclick="deleteSkill(${s.id})">🗑 Delete</button>
+          </td>
+        </tr>`;
+    });
+  }).catch(err => { console.error(err); showToast('❌ Could not load skills'); });
+}
+
+function addSkill() {
+  const body = {
+    name: document.getElementById('s-name').value,
+    category: document.getElementById('s-category').value,
+    level: parseInt(document.getElementById('s-level').value)
+  };
+  if (!body.name || !body.level) return showToast('⚠️ Fill in all fields!');
+  fetch(`${API}/api/skills`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    .then(r => r.json()).then(() => { showToast('✅ Skill added!'); loadSkills(); document.getElementById('s-name').value = ''; document.getElementById('s-level').value = ''; });
+}
+
+function deleteSkill(id) {
+  if (!confirm('Delete this skill?')) return;
+  fetch(`${API}/api/skills/${id}`, { method: 'DELETE' })
+    .then(r => r.json()).then(() => { showToast('🗑 Skill deleted!'); loadSkills(); });
+}
+
+// LOAD PROJECTS
+function loadProjects() {
+  fetch(`${API}/api/projects`).then(r => r.json()).then(data => {
+    document.getElementById('projects-count').textContent = data.projects.length;
+    const tbody = document.getElementById('projects-list');
+    tbody.innerHTML = '';
+    data.projects.forEach(p => {
+      const techPills = (Array.isArray(p.tech) ? p.tech : []).map(t => `<span class="pill pill-a">${t}</span>`).join(' ');
+      const statusClass = p.status === 'Live' ? 'pill-g' : 'pill-p';
+      tbody.innerHTML += `
+        <tr>
+          <td style="font-weight:600;color:#e2d9f3;">${p.title}</td>
+          <td style="color:#7c6a9a;font-size:12px;">${p.description}</td>
+          <td>${techPills}</td>
+          <td><span class="pill ${statusClass}">${p.status}</span></td>
+          <td class="actions">
+            <button class="btn btn-del" onclick="deleteProject(${p.id})">🗑 Delete</button>
+          </td>
+        </tr>`;
+    });
+  }).catch(err => { console.error(err); showToast('❌ Could not load projects'); });
+}
+
+function addProject() {
+  const techInput = document.getElementById('pr-tech').value;
+  const body = {
+    title: document.getElementById('pr-title').value,
+    description: document.getElementById('pr-desc').value,
+    tech: techInput.split(',').map(t => t.trim()).filter(Boolean),
+    status: document.getElementById('pr-status').value,
+    link: document.getElementById('pr-link').value || '#'
+  };
+  if (!body.title || !body.description) return showToast('⚠️ Fill in all fields!');
+  fetch(`${API}/api/projects`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    .then(r => r.json()).then(() => {
+      showToast('✅ Project added!');
+      loadProjects();
+      document.getElementById('pr-title').value = '';
+      document.getElementById('pr-desc').value = '';
+      document.getElementById('pr-tech').value = '';
+      document.getElementById('pr-link').value = '';
+    });
+}
+
+function deleteProject(id) {
+  if (!confirm('Delete this project?')) return;
+  fetch(`${API}/api/projects/${id}`, { method: 'DELETE' })
+    .then(r => r.json()).then(() => { showToast('🗑 Project deleted!'); loadProjects(); });
+}
+
+// LOAD CONTACT
+function loadContact() {
+  fetch(`${API}/api/contact`).then(r => r.json()).then(data => {
+    document.getElementById('ct-email').value = data.email || '';
+    document.getElementById('ct-phone').value = data.phone || '';
+    document.getElementById('ct-github').value = data.github || '';
+    document.getElementById('ct-linkedin').value = data.linkedin || '';
+    document.getElementById('ct-twitter').value = data.twitter || '';
+  }).catch(err => { console.error(err); showToast('❌ Could not load contact'); });
+}
+
+function saveContact() {
+  const body = {
+    email: document.getElementById('ct-email').value,
+    phone: document.getElementById('ct-phone').value,
+    github: document.getElementById('ct-github').value,
+    linkedin: document.getElementById('ct-linkedin').value,
+    twitter: document.getElementById('ct-twitter').value
+  };
+  fetch(`${API}/api/contact`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    .then(r => {
+      if (!r.ok) throw new Error('Contact update failed');
+      return r.json();
+    })
+    .then(() => { showToast('✅ Contact saved!'); loadContact(); })
+    .catch(err => { console.error(err); showToast('❌ Contact save failed'); });
+}
+
+// INIT
+loadProfile();
+loadSkills();
+loadProjects();
+loadContact();
+</script>
+</body>
+</html>
