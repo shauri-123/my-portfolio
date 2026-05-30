@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rebecca Shauri | Data Scientist & AI Engineer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <div id="status" class="status hidden" aria-live="polite"></div>
+
+  <nav>
+    <div class="logo">Rebecca <em>Shauri</em></div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#qualifications">Qualifications</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+<img src="./images/rebecca.jpg" alt="Rebecca" class="hero-img" />    <div class="hero-photo" id="fallback">RS</div>
+    <div class="hero-right">
+      <h1>Rebecca <span id="hero-name">Shauri</span></h1>
+      <div class="tagline" id="hero-title">Data Scientist & AI Engineer</div>
+      <div class="subtagline" id="hero-location">Dar es Salaam, Tanzania</div>
+      <div class="bio" id="hero-bio">I turn complex data into clear decisions. Specialising in machine learning, deep learning and AI-powered systems that solve real-world problems — one dataset at a time.</div>
+      <div class="hero-btns">
+        <a class="btn btn-main" href="#projects">View Projects</a>
+        <button class="btn btn-sec" onclick="window.print()">Print Page</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <div class="cell" id="about">
+      <div class="label">About Me</div>
+      <div class="table-wrap">
+      <table>
+        <tr><td>Full name</td><td id="about-name">Rebecca Shauri</td></tr>
+        <tr><td>Role</td><td id="about-role">Data Scientist & AI Engineer</td></tr>
+        <tr><td>Education</td><td>Bachelor degree of Data Science at Eastern Africa Statistical Training Centre</td></tr>
+        <tr><td>Location</td><td id="about-location">Dar es Salaam, Tanzania</td></tr>
+        <tr><td>Languages</td><td>English, Swahili</td></tr>
+        <tr><td>Status</td><td><span class="pill pill-g">Open to Work</span></td></tr>
+      </table>
+      </div>
+    </div>
+
+    <div class="cell" id="qualifications">
+      <div class="label">Qualifications</div>
+      <div class="table-wrap">
+      <table>
+        <tr><td>Degree</td><td>Bachelor degree of Data Science at Eastern Africa Statistical Training Centre</td></tr>
+        <tr><td>Certifications</td><td>IBM Data Science Professional Certificate</td></tr>
+        <tr><td>Specialisation</td><td>Machine Learning and AI</td></tr>
+        <tr><td>Tools</td><td>Python, Pandas, scikit-learn, TensorFlow</td></tr>
+        <tr><td>Training</td><td>Data Visualization, Statistical Modeling, Data Engineering</td></tr>
+      </table>
+      </div>
+    </div>
+
+    <div class="cell" id="contact">
+      <div class="label">Contact</div>
+      <div class="table-wrap">
+      <table>
+        <tr><td>Email</td><td id="c-email">rebecca@example.com</td></tr>
+        <tr><td>GitHub</td><td id="c-github">github.com/rebeccashauri</td></tr>
+        <tr><td>LinkedIn</td><td id="c-linkedin">linkedin.com/in/rebeccashauri</td></tr>
+        <tr><td>Twitter</td><td id="c-twitter">@rebeccashauri</td></tr>
+        <tr><td>Phone</td><td id="c-phone">0692657806</td></tr>
+      </table>
+      </div>
+    </div>
+
+    <div class="cell-full" id="skills">
+      <div class="label">Skills</div>
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Skill</th><th>Area</th><th>Level</th><th>%</th></tr>
+        </thead>
+        <tbody id="skills-body">
+          <tr><td class="td-bold">Python</td><td><span class="pill pill-v">Programming</span></td><td><div class="bar"><div class="bar-fill" style="width:90%"></div></div></td><td>90%</td></tr>
+          <tr><td class="td-bold">Machine Learning</td><td><span class="pill pill-v">AI / ML</span></td><td><div class="bar"><div class="bar-fill" style="width:85%"></div></div></td><td>85%</td></tr>
+          <tr><td class="td-bold">Data Analysis</td><td><span class="pill pill-a">Analytics</span></td><td><div class="bar"><div class="bar-fill" style="width:88%"></div></div></td><td>88%</td></tr>
+          <tr><td class="td-bold">Deep Learning</td><td><span class="pill pill-v">AI / ML</span></td><td><div class="bar"><div class="bar-fill" style="width:80%"></div></div></td><td>80%</td></tr>
+          <tr><td class="td-bold">SQL & Databases</td><td><span class="pill pill-n">Database</span></td><td><div class="bar"><div class="bar-fill" style="width:78%"></div></div></td><td>78%</td></tr>
+          <tr><td class="td-bold">Node.js & APIs</td><td><span class="pill pill-n">Backend</span></td><td><div class="bar"><div class="bar-fill" style="width:72%"></div></div></td><td>72%</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="cell-full tinted" id="projects">
+      <div class="label">Projects</div>
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Project</th><th>What it does</th><th>Built with</th><th>Status</th></tr>
+        </thead>
+        <tbody id="projects-body">
+          <tr>
+            <td class="td-num">01</td>
+            <td class="td-bold">Data Dashboard</td>
+            <td class="td-muted">Real-time analytics dashboard for business insights</td>
+            <td><span class="pill pill-v">React</span><span class="pill pill-n">D3.js</span></td>
+            <td><span class="pill pill-g">Live</span></td>
+          </tr>
+          <tr>
+            <td class="td-num">02</td>
+            <td class="td-bold">ML Predictor</td>
+            <td class="td-muted">Predictive model achieving 94% accuracy on test data</td>
+            <td><span class="pill pill-a">Scikit-learn</span><span class="pill pill-n">Pandas</span></td>
+            <td><span class="pill pill-p">In Progress</span></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    © 2025 <b>Rebecca Shauri</b> — Data Scientist & AI Engineer
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
