@@ -1,4 +1,4 @@
-const API = 'http://localhost:3000';
+const API = 'https://rebecca-portfolio-api.onrender.com/';
 
 function setText(id, value) {
   const el = document.getElementById(id);
