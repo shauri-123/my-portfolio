@@ -1,4 +1,5 @@
 const API = 'https://rebecca-portfolio-api.onrender.com';
+
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value;
@@ -54,7 +55,7 @@ fetch(`${API}/api/profile`).then(r => r.json()).then(data => {
   setText('about-role', data.title);
   setText('about-location', data.location);
   setText('c-email', data.email);
-}).catch(() => console.warn('Could not load profile from API.'));
+}).catch(e => console.error('Profile error:', e));
 
 // Load contact
 fetch(`${API}/api/contact`).then(r => r.json()).then(data => {
@@ -62,10 +63,10 @@ fetch(`${API}/api/contact`).then(r => r.json()).then(data => {
   setText('c-linkedin', data.linkedin ? data.linkedin.replace(/^https?:\/\//,'') : 'linkedin.com/in/rebeccashauri');
   setText('c-twitter', data.twitter ? data.twitter.replace(/^https?:\/\//,'') : '@rebeccashauri');
   setText('c-phone', data.phone || '');
-}).catch(() => console.warn('Could not load contact from API.'));
+}).catch(e => console.error('Contact error:', e));
 
 // Load skills
-fetch(`${API}/api/skills`).then(r => r.json()).then(data => renderSkills(data.skills || [])).catch(() => console.warn('Could not load skills from API.'));
+fetch(`${API}/api/skills`).then(r => r.json()).then(data => renderSkills(data.skills || [])).catch(e => console.error('Skills error:', e));
 
 // Load projects
-fetch(`${API}/api/projects`).then(r => r.json()).then(data => renderProjects(data.projects || [])).catch(() => console.warn('Could not load projects from API.'));
+fetch(`${API}/api/projects`).then(r => r.json()).then(data => renderProjects(data.projects || [])).catch(e => console.error('Projects error:', e));
